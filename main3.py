@@ -23,7 +23,7 @@ v3_0 = np.array([-30000, 0, 0])  # Body 3 initial velocity along x-axis
 y0 = np.concatenate((r1_0, r2_0, r3_0, v1_0, v2_0, v3_0))
 
 # Time span for the simulation (e.g., 1 year in seconds)
-t_span = (0, 365 * 24 * 3600)
+t_span = (0, 730 * 24 * 3600)
 t_eval = np.linspace(t_span[0], t_span[1], 1000)
 
 # Differential equations for the three-body problem
@@ -59,9 +59,13 @@ r2 = sol.y[3:5, :]
 r3 = sol.y[6:8, :]
 
 # Create the figure and axis
-fig, ax = plt.subplots(figsize=(10, 10))
-ax.set_xlim(-2e11, 2e11)
-ax.set_ylim(-2e11, 2e11)
+fig, ax = plt.subplots(figsize=(12, 12))  # Larger figure size
+# Calculate the maximum extent of the bodies' positions
+max_extent = max(np.max(np.abs(r1)), np.max(np.abs(r2)), np.max(np.abs(r3)))
+
+# Set the axis limits dynamically
+ax.set_xlim(-max_extent, max_extent)
+ax.set_ylim(-max_extent, max_extent)
 ax.set_xlabel('x (m)')
 ax.set_ylabel('y (m)')
 ax.set_title('Three-Body Problem Animation (Equal Masses)')
